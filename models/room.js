@@ -1,12 +1,13 @@
-import mongoose from "mongoose";
-const roomSchema = new mongoose.Schema({
+import { Schema, models, model } from "mongoose";
+
+const roomSchema = new Schema({
   name: {
     type: String,
     required: [true, "Please enter room name"],
     trim: true,
     maxLength: [100, "Room name cannot exceed 100 characters"],
   },
-  price: {
+  pricePerNight: {
     type: Number,
     required: [true, "Please enter room price"],
     maxLength: [4, "Room name cannot exceed 4 characters"],
@@ -79,7 +80,7 @@ const roomSchema = new mongoose.Schema({
   reviews: [
     {
       user: {
-        type: mongoose.Schema.ObjectId,
+        type: Schema.ObjectId,
         ref: "User",
         required: true,
       },
@@ -98,9 +99,9 @@ const roomSchema = new mongoose.Schema({
     },
   ],
   user: {
-    type: mongoose.Schema.ObjectId,
+    type: Schema.ObjectId,
     ref: "User",
-    required: true,
+    required: false,
   },
   createdAt: {
     type: Date,
@@ -108,4 +109,6 @@ const roomSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model.Room || mongoose.model("Room", roomSchema);
+const Room = models.Room || model("Room", roomSchema);
+
+export default Room;
