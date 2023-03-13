@@ -30,4 +30,17 @@ const newRoom = async (req, res) => {
   }
 };
 
-export { allRooms, newRoom };
+// Get a single room => GET /api/rooms/:roomId
+const singleRoom = async (req, res) => {
+  try {
+    const room = await Room.findById(req.query.roomId);
+    res.status(200).json({ success: true, room });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export { allRooms, newRoom, singleRoom };
