@@ -6,7 +6,7 @@ const roomSchema = new mongoose.Schema({
     trim: true,
     maxLength: [100, "Room name cannot exceed 100 characters"],
   },
-  name: {
+  price: {
     type: Number,
     required: [true, "Please enter room price"],
     maxLength: [4, "Room name cannot exceed 4 characters"],
@@ -22,11 +22,11 @@ const roomSchema = new mongoose.Schema({
   },
   guestCapacity: {
     type: Number,
-    required: [true, "Please enter room address"],
+    required: [true, "Please enter room guest Capacity"],
   },
   numOfBeds: {
     type: Number,
-    required: [true, "Please enter room address"],
+    required: [true, "Please enter number of beds in a room"],
   },
   internet: {
     type: Boolean,
@@ -88,7 +88,7 @@ const roomSchema = new mongoose.Schema({
         required: true,
       },
       rating: {
-        type: String,
+        type: Number,
         required: true,
       },
       comment: {
@@ -100,6 +100,7 @@ const roomSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
+    required: true,
   },
   createdAt: {
     type: Date,
