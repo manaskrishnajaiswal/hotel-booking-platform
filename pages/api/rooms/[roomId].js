@@ -1,4 +1,5 @@
 import dbConnect from "@/config/dbConnect";
+import onError from "@/middlewares/errors";
 import {
   singleRoom,
   deleteRoom,
@@ -6,7 +7,7 @@ import {
 } from "@/controllers/roomControllers";
 import nc from "next-connect";
 
-const handler = nc();
+const handler = nc({ onError });
 dbConnect();
 
 // GET /api/rooms/:roomId
