@@ -12,16 +12,21 @@ class APIFeatures {
           },
         }
       : {};
-    console.log(location);
     this.query = this.query.find({ ...location });
     return this;
   }
   filter() {
     const queryStrCopy = { ...this.queryStr };
     // remove fields from query
-    const removeFields = ["location"];
+    const removeFields = ["location", "page"];
     removeFields.forEach((el) => delete queryStrCopy[el]);
     this.query = this.query.find(queryStrCopy);
+    return this;
+  }
+  pagination(resPerPage) {
+    const currentPage = Number(this.queryStr.page) || 1;
+    const skip = resPerPage * (currentPage - 1);
+    this.query = this.query.limit(resPerPage).skip(skip);
     return this;
   }
 }
