@@ -1,4 +1,5 @@
 import Room from "@/models/room";
+import ErrorHandler from "@/utilsMod/errorHandler";
 
 // Get all rooms => GET /api/rooms
 const allRooms = async (req, res) => {
@@ -31,13 +32,10 @@ const newRoom = async (req, res) => {
 };
 
 // Get a single room => GET /api/rooms/:roomId
-const singleRoom = async (req, res) => {
+const singleRoom = async (req, res, next) => {
   try {
     const room = await Room.findById(req.query.roomId);
-    if (!room)
-      return res
-        .status(404)
-        .json({ success: false, message: "Room not Found!" });
+    if (!room) return next(new ErrorHandler("Room not Found!!", 404));
     res.status(200).json({ success: true, room });
   } catch (error) {
     res.status(400).json({
@@ -48,14 +46,10 @@ const singleRoom = async (req, res) => {
 };
 
 // Update a single room => PUT /api/rooms/:roomId
-const updateRoom = async (req, res) => {
+const updateRoom = async (req, res, next) => {
   try {
     const room = await Room.findById(req.query.roomId);
-    if (!room) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Room not found" });
-    }
+    if (!room) return next(new ErrorHandler("Room not Found!!", 404));
     const updatedRoom = await Room.findByIdAndUpdate(
       req.query.roomId,
       req.body,
@@ -73,14 +67,10 @@ const updateRoom = async (req, res) => {
 };
 
 // Delete a single room => DEL /api/rooms/:roomId
-const deleteRoom = async (req, res) => {
+const deleteRoom = async (req, res, next) => {
   try {
     const room = await Room.findByIdAndDelete(req.query.roomId);
-    if (!room) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Room not found" });
-    }
+    if (!room) return next(new ErrorHandler("Room not Found!!", 404));
     res
       .status(200)
       .json({ success: true, message: "Room deleted successfully" });
