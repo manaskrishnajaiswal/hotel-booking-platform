@@ -2,17 +2,18 @@ import { getRoomsAction } from "@/redux/actions/roomActions";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import RoomItem from "./room/RoomItem";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
   const dispatch = useDispatch();
   const allRooms = useSelector((state) => state.allRooms);
   const { loading: loadingallrooms, error: errorallrooms, allrooms } = allRooms;
-  // console.log(allrooms);
-  // useEffect(() => {
-  //   if (!allrooms) {
-  //     dispatch(getRoomsAction());
-  //   }
-  // }, [dispatch, allrooms]);
+
+  useEffect(() => {
+    toast.error(errorallrooms);
+  }, [errorallrooms]);
+
   return (
     <>
       <section id="rooms" className="container mt-5">
