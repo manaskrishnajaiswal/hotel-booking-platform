@@ -30,6 +30,29 @@ export const getRoomsAction = (req) => async (dispatch) => {
   }
 };
 
+// Get room details
+export const getRoomDetailsAction = (req, roomId) => async (dispatch) => {
+  try {
+    const { origin } = absoluteUrl(req);
+    dispatch({ type: ROOM_DETAILS_REQUEST });
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.get(`${origin}/api/rooms/${roomId}`, config);
+    dispatch({ type: ROOM_DETAILS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: ROOM_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 // Clear Errors
 export const clearErrors = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
