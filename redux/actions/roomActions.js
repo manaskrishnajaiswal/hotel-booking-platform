@@ -4,6 +4,9 @@ import {
   ALL_ROOMS_REQUEST,
   ALL_ROOMS_SUCCESS,
   CLEAR_ERRORS,
+  ROOM_DETAILS_FAIL,
+  ROOM_DETAILS_REQUEST,
+  ROOM_DETAILS_SUCCESS,
 } from "../constants/roomConstants";
 import absoluteUrl from "next-absolute-url";
 

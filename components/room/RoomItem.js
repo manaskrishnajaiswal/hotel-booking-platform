@@ -32,7 +32,7 @@ const RoomItem = ({ room }) => {
                   style={{ width: `${(room.rating / 5) * 100}%` }}
                 ></div>
               </div>
-              <span id="no_of_reviews">(${room.numOfReviews} Reviews)</span>
+              <span id="no_of_reviews">({room.numOfReviews} Reviews)</span>
             </div>
 
             <button className="btn btn-block view-btn">
