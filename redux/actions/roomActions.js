@@ -1,20 +1,23 @@
 import axios from "axios";
 import {
-  ALL_ROOMS_CREATE,
   ALL_ROOMS_FAIL,
+  ALL_ROOMS_REQUEST,
   ALL_ROOMS_SUCCESS,
+  CLEAR_ERRORS,
 } from "../constants/roomConstants";
+import absoluteUrl from "next-absolute-url";
 
 // Get all rooms
-export const getRoomsAction = () => async (dispatch) => {
+export const getRoomsAction = (req) => async (dispatch) => {
   try {
-    dispatch({ type: ALL_ROOMS_CREATE });
+    const { origin } = absoluteUrl(req);
+    dispatch({ type: ALL_ROOMS_REQUEST });
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-    const { data } = axios.get("/api/rooms", config);
+    const { data } = await axios.get(`${origin}/api/rooms`, config);
     dispatch({ type: ALL_ROOMS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -25,4 +28,9 @@ export const getRoomsAction = () => async (dispatch) => {
           : error.message,
     });
   }
+};
+
+// Clear Errors
+export const clearErrors = () => async (dispatch) => {
+  dispatch({ type: CLEAR_ERRORS });
 };
