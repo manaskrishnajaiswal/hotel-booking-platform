@@ -15,10 +15,10 @@ export default function Index() {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
-    async ({ req, res }) => {
+    async ({ req, res, query }) => {
       if (store) {
         const { dispatch } = store;
-        await dispatch(getRoomsAction(req));
+        await dispatch(getRoomsAction(req, query.page));
       } else {
         console.log("store object is not defined");
       }

@@ -11,27 +11,32 @@ import {
 import absoluteUrl from "next-absolute-url";
 
 // Get all rooms
-export const getRoomsAction = (req) => async (dispatch) => {
-  try {
-    const { origin } = absoluteUrl(req);
-    dispatch({ type: ALL_ROOMS_REQUEST });
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const { data } = await axios.get(`${origin}/api/rooms`, config);
-    dispatch({ type: ALL_ROOMS_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: ALL_ROOMS_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+export const getRoomsAction =
+  (req, currentPage = 1) =>
+  async (dispatch) => {
+    try {
+      const { origin } = absoluteUrl(req);
+      dispatch({ type: ALL_ROOMS_REQUEST });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.get(
+        `${origin}/api/rooms?page=${currentPage}`,
+        config
+      );
+      dispatch({ type: ALL_ROOMS_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: ALL_ROOMS_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 // Get room details
 export const getRoomDetailsAction = (req, roomId) => async (dispatch) => {
