@@ -229,7 +229,8 @@ nav {
 }
 
 .back-to-search:hover {
-  color: #e61e4d;
+  color: green;
+  text-decoration: none;
 }
 
 .card {

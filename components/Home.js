@@ -6,13 +6,14 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { clearErrors } from "@/redux/actions/roomActions";
 import Pagination from "react-js-pagination";
+import Link from "next/link";
 
 const Home = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const allRooms = useSelector((state) => state.allRooms);
   const { loading: loadingallrooms, error: errorallrooms, allrooms } = allRooms;
-  let { page = 1 } = router.query;
+  let { location, page = 1 } = router.query;
   page = Number(page);
   useEffect(() => {
     if (errorallrooms) {
@@ -25,15 +26,23 @@ const Home = () => {
     window.location.href = `/?page=${pageNumber}`;
   };
 
+  let count = allrooms.roomsCount;
+  if (location) {
+    count = allrooms.filteredRoomsCount;
+  }
+
   return (
     <>
       <section id="rooms" className="container mt-5">
-        <h2 className="mb-3 ml-2 stays-heading">Stays in New York</h2>
-
-        <a href="#" className="ml-2 back-to-search">
-          {" "}
-          <i className="fa fa-arrow-left"></i> Back to Search
-        </a>
+        <h2 className="mb-3 ml-2 stays-heading">
+          {location ? `Rooms in ${location}` : "All Rooms"}
+        </h2>
+        <Link href="/search" className="ml-2 back-to-search">
+          <span>
+            {" "}
+            <i className="fa fa-arrow-left"></i> Back to Search
+          </span>
+        </Link>
         <div className="row">
           {allrooms && allrooms.rooms.length !== 0 ? (
             allrooms.rooms.map((room) => (
@@ -46,7 +55,7 @@ const Home = () => {
           )}
         </div>
       </section>
-      {allrooms.resPerPage < allrooms.roomsCount && (
+      {allrooms.resPerPage < count && (
         <div className="d-flex justify-content-center mt-5">
           <Pagination
             activePage={page}
