@@ -12,7 +12,7 @@ import absoluteUrl from "next-absolute-url";
 
 // Get all rooms
 export const getRoomsAction =
-  (req, currentPage = 1, location = "") =>
+  (req, currentPage = 1, location = "", guests, category) =>
   async (dispatch) => {
     try {
       const { origin } = absoluteUrl(req);
@@ -22,10 +22,11 @@ export const getRoomsAction =
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axios.get(
-        `${origin}/api/rooms?page=${currentPage}&location=${location}`,
-        config
-      );
+      let link = `${origin}/api/rooms?page=${currentPage}&location=${location}`;
+      if (guests) link = link.concat(`&guestCapacity=${guests}`);
+      if (category) link = link.concat(`&category=${category}`);
+
+      const { data } = await axios.get(link, config);
       dispatch({ type: ALL_ROOMS_SUCCESS, payload: data });
     } catch (error) {
       dispatch({

@@ -18,7 +18,15 @@ export const getServerSideProps = wrapper.getServerSideProps(
     async ({ req, res, query }) => {
       if (store) {
         const { dispatch } = store;
-        await dispatch(getRoomsAction(req, query.page, query.location));
+        await dispatch(
+          getRoomsAction(
+            req,
+            query.page,
+            query.location,
+            query.location,
+            query.category
+          )
+        );
       } else {
         console.log("store object is not defined");
       }
