@@ -1,4 +1,3 @@
-import { connect } from "react-redux";
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,7 +26,10 @@ const Home = () => {
     window.location.href = `/?page=${pageNumber}`;
   };
 
-  let count = allrooms.roomsCount;
+  let count = 0;
+  if (allrooms) {
+    count = allrooms.roomsCount;
+  }
   if (location) {
     count = allrooms.filteredRoomsCount;
   }
@@ -56,7 +58,7 @@ const Home = () => {
           )}
         </div>
       </section>
-      {allrooms.resPerPage < count && (
+      {allrooms && allrooms.resPerPage < count && (
         <div className="d-flex justify-content-center mt-5">
           <Pagination
             activePage={page}
@@ -75,11 +77,5 @@ const Home = () => {
     </>
   );
 };
-const mapStateToProps = (state) => {
-  return {
-    allRooms: state.allRooms,
-    // other props as needed
-  };
-};
 
-export default connect(mapStateToProps)(Home);
+export default Home;

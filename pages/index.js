@@ -23,7 +23,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
             req,
             query.page,
             query.location,
-            query.location,
+            query.guests,
             query.category
           )
         );
